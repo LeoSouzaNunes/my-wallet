@@ -2,6 +2,7 @@ import { Form, Input, Button, Container, LinkStyled } from "../../components";
 import logo from "../../assets/logo.svg";
 import { useState } from "react";
 import { handleChange } from "../../handlers";
+import { signup } from "../../services/requests";
 
 export default function SignUp() {
     const [formData, setFormData] = useState({
@@ -9,13 +10,20 @@ export default function SignUp() {
         email: "",
         password: "",
     });
+
     const [confirmPasswordData, setConfirmPasswordData] = useState("");
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         if (confirmPasswordData !== formData.password) {
             alert("Por favor informe senhas iguais!");
             return;
+        }
+        try {
+            const promise = await signup(formData);
+            console.log(promise);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -58,7 +66,7 @@ export default function SignUp() {
                 <Button type="submit">Cadastrar</Button>
             </Form>
 
-            <LinkStyled to="/login">Já tem uma conta? Entre agora!</LinkStyled>
+            <LinkStyled to="/">Já tem uma conta? Entre agora!</LinkStyled>
         </Container>
     );
 }

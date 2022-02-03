@@ -3,8 +3,10 @@ import logo from "../../assets/logo.svg";
 import { useState } from "react";
 import { handleChange } from "../../handlers";
 import { signup } from "../../services/requests";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -22,6 +24,7 @@ export default function SignUp() {
         try {
             const promise = await signup(formData);
             console.log(promise);
+            navigate("/");
         } catch (error) {
             console.log(error);
         }

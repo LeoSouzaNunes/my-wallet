@@ -3,18 +3,49 @@ import styled from "styled-components";
 import logout from "../../assets/back.svg";
 import plus from "../../assets/plus.svg";
 import minus from "../../assets/minus.svg";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getHomeData } from "../../services/requests";
+import useAuth from "../../hooks/useAuth";
+import { handleCancelLogout } from "../../handlers";
 
 export default function Home() {
+    const navigate = useNavigate();
     const [confirmLogout, setConfirmLogout] = useState(false);
+    const [username, setUsername] = useState(undefined);
+    const { token, setToken, setId } = useAuth();
+    const { userId } = useParams();
+    setId(userId);
+
+    useEffect(() => {
+        const promise = getHomeData(token, userId);
+        promise
+            .then((response) => {
+                setUsername(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                setToken("");
+                setId("");
+                navigate("/");
+            });
+    }, []);
+
+    function handleConfirmLogout() {
+        if (confirmLogout === true) {
+            setToken("");
+            setId("");
+            navigate("/");
+        }
+        setConfirmLogout(!confirmLogout);
+    }
 
     return (
-        <Container>
+        <Container onClick={() => handleCancelLogout(confirmLogout, setConfirmLogout)}>
             <TopContent>
-                <Title>Olá, Fulano</Title>
+                <Title>Olá, {username ? username : "not found"}</Title>
                 <Logout
-                    onClick={() => setConfirmLogout(!confirmLogout)}
+                    onClick={handleConfirmLogout}
                     clicked={confirmLogout}
                     src={logout}
                     alt="Logout icon"

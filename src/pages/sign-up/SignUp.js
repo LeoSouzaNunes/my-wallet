@@ -23,7 +23,6 @@ export default function SignUp() {
         }
         try {
             const promise = await signup(formData);
-            console.log(promise);
             navigate("/");
         } catch (error) {
             console.log(error);

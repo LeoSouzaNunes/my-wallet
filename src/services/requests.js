@@ -28,4 +28,10 @@ function postDeposit(body, token) {
     return promise;
 }
 
-export { signup, login, getHomeData, postDeposit };
+function postWithdraw(body, token) {
+    const config = createConfig(token);
+    const promise = axios.post(`${BASE_URL}/withdraw`, body, config);
+    return promise;
+}
+
+export { signup, login, getHomeData, postDeposit, postWithdraw };

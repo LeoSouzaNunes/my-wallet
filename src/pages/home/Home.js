@@ -15,13 +15,12 @@ export default function Home() {
     const [username, setUsername] = useState(undefined);
     const { token, setToken, setId } = useAuth();
     const { userId } = useParams();
-    setId(userId);
-
     useEffect(() => {
         const promise = getHomeData(token, userId);
         promise
             .then((response) => {
                 setUsername(response.data);
+                setId(userId);
             })
             .catch((error) => {
                 console.log(error);

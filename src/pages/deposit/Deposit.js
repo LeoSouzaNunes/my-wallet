@@ -19,6 +19,7 @@ export default function Deposit() {
 
         const data = {
             ...formData,
+            value: formData.value.replace(",", "."),
             type: "deposit",
         };
 

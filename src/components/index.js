@@ -7,6 +7,8 @@ import Logout from "./Logout";
 import Title from "./Title";
 import MainDisplay from "./MainDisplay";
 import ButtonHome from "./ButtonHome";
+import TradesContainer from "./TradesContainer";
+import Trade from "./Trade";
 
 export {
     Button,
@@ -18,4 +20,6 @@ export {
     Title,
     MainDisplay,
     ButtonHome,
+    TradesContainer,
+    Trade,
 };

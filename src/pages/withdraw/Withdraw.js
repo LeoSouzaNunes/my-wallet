@@ -19,6 +19,7 @@ export default function Withdraw() {
 
         const data = {
             ...formData,
+            value: formData.value.replace(",", "."),
             type: "withdraw",
         };
 

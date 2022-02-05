@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
 const MainDisplay = styled.main`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     width: 100%;
     min-height: 450px;
 
-    padding: 20px 10px;
+    padding: 15px 10px 5px;
 
     font-style: normal;
     font-weight: normal;

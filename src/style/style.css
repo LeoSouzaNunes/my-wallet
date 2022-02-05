@@ -17,3 +17,12 @@ body {
 .root {
     min-height: 100vh;
 }
+
+ul::-webkit-scrollbar {
+    display: none;
+}
+
+ul {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

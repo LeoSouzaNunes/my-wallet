@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
     const navigate = useNavigate();
     const { setToken } = useAuth();
+    const [lockComponent, setLockComponent] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -16,11 +17,14 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setLockComponent(true);
         try {
             const promise = await login(formData);
             setToken(promise.data.token);
+            setLockComponent(false);
             navigate(`/home/${promise.data.userId}`);
         } catch (error) {
+            setLockComponent(false);
             console.log(error);
         }
     }
@@ -35,6 +39,7 @@ export default function Login() {
                     type="email"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.email}
+                    disabled={lockComponent}
                     required
                 />
                 <Input
@@ -43,10 +48,13 @@ export default function Login() {
                     type="password"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.password}
+                    disabled={lockComponent}
                     required
                 />
 
-                <Button type="submit">Entrar</Button>
+                <Button type="submit" disabled={lockComponent}>
+                    Entrar
+                </Button>
             </Form>
 
             <LinkStyled to="/sign-up">Primeira vez? Cadastre-se!</LinkStyled>

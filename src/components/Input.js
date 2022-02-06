@@ -34,6 +34,10 @@ const Input = styled.input`
 
         color: #000000;
     }
+
+    :disabled {
+        opacity: 0.8;
+    }
 `;
 
 export default Input;

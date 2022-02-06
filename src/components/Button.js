@@ -17,6 +17,9 @@ const Button = styled.button`
     :hover {
         cursor: pointer;
     }
+    :disabled {
+        opacity: 0.8;
+    }
 `;
 
 export default Button;

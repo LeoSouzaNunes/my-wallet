@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
     const navigate = useNavigate();
+    const [lockComponent, setLockComponent] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -17,14 +18,18 @@ export default function SignUp() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setLockComponent(true);
         if (confirmPasswordData !== formData.password) {
             alert("Por favor informe senhas iguais!");
+            setLockComponent(false);
             return;
         }
         try {
-            const promise = await signup(formData);
+            await signup(formData);
+            setLockComponent(false);
             navigate("/");
         } catch (error) {
+            setLockComponent(false);
             console.log(error);
         }
     }
@@ -39,6 +44,7 @@ export default function SignUp() {
                     type="text"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.name}
+                    disabled={lockComponent}
                     required
                 />
                 <Input
@@ -47,6 +53,7 @@ export default function SignUp() {
                     type="email"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.email}
+                    disabled={lockComponent}
                     required
                 />
                 <Input
@@ -55,6 +62,7 @@ export default function SignUp() {
                     type="password"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.password}
+                    disabled={lockComponent}
                     required
                 />
                 <Input
@@ -62,10 +70,13 @@ export default function SignUp() {
                     type="password"
                     onChange={(e) => setConfirmPasswordData(e.target.value)}
                     value={confirmPasswordData}
+                    disabled={lockComponent}
                     required
                 />
 
-                <Button type="submit">Cadastrar</Button>
+                <Button type="submit" disabled={lockComponent}>
+                    Cadastrar
+                </Button>
             </Form>
 
             <LinkStyled to="/">Já tem uma conta? Entre agora!</LinkStyled>

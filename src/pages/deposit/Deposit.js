@@ -8,6 +8,7 @@ import { postDeposit } from "../../services/requests";
 
 export default function Deposit() {
     const navigate = useNavigate();
+    const [lockComponent, setLockComponent] = useState(false);
     const { token, id } = useAuth();
     const [formData, setFormData] = useState({
         value: "",
@@ -16,7 +17,7 @@ export default function Deposit() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        setLockComponent(true);
         const data = {
             ...formData,
             value: formData.value.replace(",", "."),
@@ -25,8 +26,10 @@ export default function Deposit() {
 
         try {
             await postDeposit(data, token);
+            setLockComponent(false);
             navigate(`/home/${id}`);
         } catch (error) {
+            setLockComponent(false);
             console.log(error);
         }
     }
@@ -41,6 +44,7 @@ export default function Deposit() {
                     type="text"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.value}
+                    disabled={lockComponent}
                     required
                 />
                 <Input
@@ -49,9 +53,12 @@ export default function Deposit() {
                     type="text"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.text}
+                    disabled={lockComponent}
                     required
                 />
-                <Button type="submit">Salvar entrada</Button>
+                <Button type="submit" disabled={lockComponent}>
+                    Salvar entrada
+                </Button>
             </Form>
         </Container>
     );

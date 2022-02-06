@@ -9,6 +9,7 @@ import { postWithdraw } from "../../services/requests";
 export default function Withdraw() {
     const navigate = useNavigate();
     const { token, id } = useAuth();
+    const [lockComponent, setLockComponent] = useState(false);
     const [formData, setFormData] = useState({
         value: "",
         text: "",
@@ -16,7 +17,7 @@ export default function Withdraw() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        setLockComponent(true);
         const data = {
             ...formData,
             value: formData.value.replace(",", "."),
@@ -25,8 +26,10 @@ export default function Withdraw() {
 
         try {
             await postWithdraw(data, token);
+            setLockComponent(false);
             navigate(`/home/${id}`);
         } catch (error) {
+            setLockComponent(false);
             console.log(error);
         }
     }
@@ -41,6 +44,7 @@ export default function Withdraw() {
                     type="text"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.value}
+                    disabled={lockComponent}
                     required
                 />
                 <Input
@@ -49,9 +53,12 @@ export default function Withdraw() {
                     type="text"
                     onChange={(e) => handleChange(setFormData, formData, e)}
                     value={formData.text}
+                    disabled={lockComponent}
                     required
                 />
-                <Button type="submit">Salvar saída</Button>
+                <Button type="submit" disabled={lockComponent}>
+                    Salvar saída
+                </Button>
             </Form>
         </Container>
     );

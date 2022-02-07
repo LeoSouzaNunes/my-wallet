@@ -30,6 +30,7 @@ export default function SignUp() {
             navigate("/");
         } catch (error) {
             setLockComponent(false);
+            alert(error.response.data);
             console.log(error);
         }
     }

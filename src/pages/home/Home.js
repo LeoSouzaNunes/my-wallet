@@ -15,6 +15,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getHomeData } from "../../services/requests";
 import useAuth from "../../hooks/useAuth";
 import { handleCancelLogout } from "../../handlers";
+import dayjs from "dayjs";
 
 export default function Home() {
     const navigate = useNavigate();
@@ -24,7 +25,11 @@ export default function Home() {
     const [totalColor, setTotalColor] = useState(false);
     const { token, setToken, setId } = useAuth();
     const { userId } = useParams();
-    const total = handleBalance(trades);
+
+    const monthTrades = trades?.filter(
+        (trade) => trade.time?.split("/")[1] === dayjs().format("MM")
+    );
+    const total = handleBalance(monthTrades);
 
     useEffect(() => {
         if (total > 0) {
@@ -81,11 +86,11 @@ export default function Home() {
                 />
             </TopContent>
             <MainDisplay>
-                {trades ? (
+                {monthTrades ? (
                     <>
                         <TradesContainer>
-                            {trades.map((trade) => (
-                                <Trade key={trade.text}>
+                            {monthTrades.map((trade, index) => (
+                                <Trade key={index}>
                                     <Span>
                                         <span>{trade.time}</span>
                                         <p>{trade.text}</p>

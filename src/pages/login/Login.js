@@ -25,6 +25,11 @@ export default function Login() {
             navigate(`/home/${promise.data.userId}`);
         } catch (error) {
             setLockComponent(false);
+            if (error.response.status === 422) {
+                alert("É necessário informar um email válido.");
+                return;
+            }
+            alert(error.response.data);
             console.log(error);
         }
     }

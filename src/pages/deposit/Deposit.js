@@ -30,6 +30,9 @@ export default function Deposit() {
             navigate(`/home/${id}`);
         } catch (error) {
             setLockComponent(false);
+            alert(
+                "O campo de valor precisa ser um número e a descrição um tamanho máximo de 30 caracteres."
+            );
             console.log(error);
         }
     }
